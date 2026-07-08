@@ -6,27 +6,24 @@ priority = 0
 [[patches]]
 [patches.pattern]
 target = "functions/button_callbacks.lua"
-pattern = "_tag.children[2].children[1].config.colour = G.C.UI.TEXT_LIGHT"
-position = "after"
+pattern = "if e.config.id == G.GAME.blind_on_deck then"
+position = "before"
 payload = '''
-    _tag.children[3].config.button = 'skip_blind'
-    _tag.config.outline_colour = adjust_alpha(G.C.BLUE, 0.5)
-    _tag.children[3].config.hover = true
-    _tag.children[3].config.colour = G.C.RED
-    _tag.children[3].children[1].config.colour = G.C.UI.TEXT_LIGHT
-'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
-target = "functions/button_callbacks.lua"
-pattern = "_tag.children[2].children[1].config.colour = G.C.UI.TEXT_INACTIVE"
-position = "after"
-payload = '''
-    _tag.children[3].config.button = nil
-    _tag.children[3].config.hover = false
-    _tag.children[3].config.colour = G.C.UI.BACKGROUND_INACTIVE
-    _tag.children[3].children[1].config.colour = G.C.UI.TEXT_INACTIVE
+G.GAME.upgraded_blinds = G.GAME.upgraded_blinds or {}
+if _tag then
+    if e.config.id == G.GAME.blind_on_deck and not G.GAME.upgraded_blinds[e.config.id] then
+        _tag.children[3].config.button = 'skip_blind'
+        _tag.config.outline_colour = adjust_alpha(G.C.BLUE, 0.5)
+        _tag.children[3].config.hover = true
+        _tag.children[3].config.colour = G.C.RED
+        _tag.children[3].children[1].config.colour = G.C.UI.TEXT_LIGHT
+    else
+        _tag.children[3].config.button = nil
+        _tag.children[3].config.hover = false
+        _tag.children[3].config.colour = G.C.UI.BACKGROUND_INACTIVE
+        _tag.children[3].children[1].config.colour = G.C.UI.TEXT_INACTIVE
+    end
+end
 '''
 match_indent = true
 
