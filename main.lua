@@ -1,6 +1,7 @@
 
 local uibox_tag_ref = create_UIBox_blind_tag
 function create_UIBox_blind_tag(blind_choice, run_info)
+    --to make this feature toggleable, the relevant config option should also be checked here
     if not run_info then
         G.GAME.round_resets.blind_tags = G.GAME.round_resets.blind_tags or {}
         if not G.GAME.round_resets.blind_tags[blind_choice] then return nil end

@@ -4,6 +4,7 @@ dump_lua = true
 priority = 0
 
 # Only one skip/upgrade per blind
+# In order to make this feature toggleable, the relevant config option should be checked as well as `_tag`
 [[patches]]
 [patches.pattern]
 target = "functions/button_callbacks.lua"
