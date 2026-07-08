@@ -1,0 +1,11 @@
+{
+"id": "blindraiser",
+"name": "Blind Raiser",
+"author": ["Eris"],
+"description": "Adds an option to upgrade a blind as an alternative method of obtaining its skip tag",
+"prefix": "blr",
+"main_file": "main.lua",
+"priority": -100,
+"version": "1.0.0",
+"dependencies": ["Steamodded"]
+}
