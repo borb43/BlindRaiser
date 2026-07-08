@@ -3,28 +3,59 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
+# Only one skip/upgrade per blind
 [[patches]]
 [patches.pattern]
 target = "functions/button_callbacks.lua"
-pattern = "if e.config.id == G.GAME.blind_on_deck then"
-position = "before"
+pattern = '''
+    if _top_button then 
+        _top_button.config.colour = G.C.UI.BACKGROUND_INACTIVE
+        _top_button.config.button = nil
+        _top_button.config.hover = false
+        _top_button.children[1].config.colour = G.C.UI.TEXT_INACTIVE
+    end
+end
+'''
+position = "after"
 payload = '''
 G.GAME.upgraded_blinds = G.GAME.upgraded_blinds or {}
 if _tag then
     if e.config.id == G.GAME.blind_on_deck and not G.GAME.upgraded_blinds[e.config.id] then
-        _tag.children[3].config.button = 'skip_blind'
+        --Upgrade blind button
+        _tag.children[3].config.button = 'blr_upgrade_blind'
         _tag.config.outline_colour = adjust_alpha(G.C.BLUE, 0.5)
         _tag.children[3].config.hover = true
         _tag.children[3].config.colour = G.C.RED
         _tag.children[3].children[1].config.colour = G.C.UI.TEXT_LIGHT
+        --Skip blind button
+        _tag.children[2].config.button = 'skip_blind'
+        _tag.config.outline_colour = adjust_alpha(G.C.BLUE, 0.5)
+        _tag.children[2].config.hover = true
+        _tag.children[2].config.colour = G.C.RED
+        _tag.children[2].children[1].config.colour = G.C.UI.TEXT_LIGHT
     else
+        --Upgrade blind button
         _tag.children[3].config.button = nil
         _tag.children[3].config.hover = false
         _tag.children[3].config.colour = G.C.UI.BACKGROUND_INACTIVE
         _tag.children[3].children[1].config.colour = G.C.UI.TEXT_INACTIVE
+        --Skip blind button
+        _tag.children[2].config.button = nil
+        _tag.config.outline_colour = G.C.UI.BACKGROUND_INACTIVE
+        _tag.children[2].config.hover = false
+        _tag.children[2].config.colour = G.C.UI.BACKGROUND_INACTIVE
+        _tag.children[2].children[1].config.colour = G.C.UI.TEXT_INACTIVE
     end
 end
 '''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.GAME.round_resets.blind_states[e.config.id] == 'Defeated' then"
+position = "before"
+payload = "(G.GAME.upgraded_blinds or {})[e.config.id] or"
 match_indent = true
 
 # Bosses as small/big blinds patches from Cryptid
