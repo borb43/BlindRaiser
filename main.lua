@@ -58,6 +58,7 @@ G.FUNCS.blr_upgrade_blind = function (e)
     stop_use()
     G.CONTROLLER.locks.boss_reroll = true
     local _tag = e.UIBox:get_UIE_by_ID('tag_container')
+    G.GAME.blr_blind_upgrades = (G.GAME.blr_blind_upgrades or 0) + 1
     if _tag then
         add_tag(_tag.config.ref_table)
         G.GAME.upgraded_blinds[upgraded] = true
