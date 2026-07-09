@@ -89,8 +89,8 @@ G.FUNCS.blr_upgrade_blind = function (e)
                             UIBox_dyn_container(
                                 { create_UIBox_blind_choice(upgraded) },
                                 false,
-                                get_blind_main_colour("Boss"),
-                                mix_colours(G.C.BLACK, get_blind_main_colour("Boss"), 0.8)
+                                get_blind_main_colour(boss),
+                                mix_colours(G.C.BLACK, get_blind_main_colour(boss), 0.8)
                             ),
                         },
                     },
